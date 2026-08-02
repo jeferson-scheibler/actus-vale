@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* revelação em scroll (elementos .rv e barras .measure) */
+  /* revelação em scroll */
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
 
-  document.querySelectorAll('.rv, .measure').forEach((el, i) => {
+  document.querySelectorAll('.rv').forEach((el, i) => {
     if (el.classList.contains('rv') && !el.style.getPropertyValue('--d')) {
       el.style.setProperty('--d', (i % 6) * 0.07 + 's');
     }

@@ -7,13 +7,32 @@ Site estático, sem build. HTML, CSS e um arquivo de JS.
 ## Estrutura
 
 ```
-index.html            página inicial (manifesto, princípios, atuação, observatório)
-blog/index.html       índice de publicações, com filtro por categoria
-blog/post.html        modelo de artigo, duplicar para cada publicação nova
-assets/css/style.css  sistema visual completo
-assets/js/main.js     progresso de rolagem, revelações, filtros
-assets/img/mark.svg   símbolo do pico (usado como favicon e na rail)
+index.html                    página inicial (manifesto, princípios, atuação, blog, convite)
+blog/index.html               índice de publicações, com filtro por categoria
+blog/post.html                modelo de artigo, duplicar para cada publicação nova
+assets/css/style.css          sistema visual completo
+assets/js/main.js             progresso de rolagem, revelações, filtros
+assets/img/mark.svg           símbolo do pico (favicon e rail)
+assets/img/logo-horizontal-light.png   logotipo da navbar, versão clara
+assets/img/vale-do-taquari.svg         malha dos 36 municípios, fundo da seção do blog
 ```
+
+### O mapa do Vale
+
+`assets/img/vale-do-taquari.svg` é gerado a partir das malhas municipais do IBGE
+(API `servicodados.ibge.gov.br/api/v3/malhas`), um `<path>` por município. A região
+é composta pelos 31 municípios da microrregião Lajeado-Estrela mais Anta Gorda,
+Arvorezinha, Ilópolis, Putinga e São José do Herval, totalizando os 36 do Corede
+Vale do Taquari.
+
+O arquivo é estático e não precisa ser reconstruído, a menos que a composição da
+região mude. Para regerar:
+
+```bash
+python tools/gerar-mapa.py assets/img/vale-do-taquari.svg
+```
+
+Precisa de rede (baixa do IBGE) e faz cache em `tools/cache/`, que não é versionado.
 
 ## Publicar um artigo novo
 
@@ -24,11 +43,10 @@ assets/img/mark.svg   símbolo do pico (usado como favicon e na rail)
 
 ## Pendências conhecidas
 
-- **Números do Observatório são ilustrativos.** Estão rotulados como tais na página
-  (`index.html`, seção `#observatorio`). Substituir pelos valores reais quando o
-  primeiro levantamento fechar.
 - **Formulário de e-mail não tem backend.** Hoje só limpa o campo. Precisa ser
   ligado a um serviço (Formspree, Buttondown, Mailchimp) antes de valer como captura.
+- **Os artigos do blog são de exemplo.** Títulos, datas e textos existem para mostrar
+  o formato. Substituir pelos reais antes de divulgar o site.
 
 ## Desenvolvimento
 

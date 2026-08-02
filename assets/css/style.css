@@ -82,6 +82,8 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 .dsp-xl  { font-size: clamp(2rem, 9vw, 9.4rem); }
+/* linha mais longa do título ("com quem fica.") não cabe em 9vw */
+.hero-title { font-size: clamp(1.9rem, 7.2vw, 7.4rem); }
 .dsp-lg  { font-size: clamp(1.9rem, 5.4vw, 4.6rem); }
 .dsp-md  { font-size: clamp(1.5rem, 2.6vw, 2.3rem); line-height: 0.95; }
 .dsp-sm  { font-size: clamp(1.1rem, 1.5vw, 1.35rem); line-height: 1.05; letter-spacing: 0; }
@@ -231,18 +233,6 @@ ul { margin: 0; padding: 0; list-style: none; }
   border-bottom: 1px solid var(--hair);
 }
 
-.grid-lines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: repeating-linear-gradient(
-    to right,
-    var(--hair) 0 1px,
-    transparent 1px 16.6666%
-  );
-  opacity: 0.75;
-}
-
 .hero-glow {
   position: absolute;
   top: -18%; left: 42%;
@@ -293,6 +283,22 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 .sec { padding: clamp(80px, 11vw, 160px) 0; border-bottom: 1px solid var(--hair); }
 .sec--panel { background: var(--panel); }
+
+/* malha dos 36 municípios do Vale do Taquari ao fundo */
+.sec--map { position: relative; overflow: hidden; }
+.sec--map > .wrap { position: relative; z-index: 1; }
+.sec-map {
+  position: absolute;
+  top: 50%;
+  right: -3vw;
+  transform: translateY(-50%);
+  height: 132%;
+  width: auto;
+  max-width: none;
+  opacity: 0.1;
+  pointer-events: none;
+  user-select: none;
+}
 
 .sec-head {
   display: grid;
@@ -381,56 +387,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 .front:hover .front-top .chev { opacity: 1; transform: translateY(0); }
 .front h3 { margin-bottom: 16px; }
 .front p { color: var(--bone-2); max-width: 44ch; }
-
-/* ---------- observatório / medidas ---------- */
-
-.measures { border-top: 1px solid var(--hair); }
-.measure {
-  display: grid;
-  grid-template-columns: 200px minmax(0, 1fr) 120px;
-  gap: 32px;
-  align-items: center;
-  padding: 26px 0;
-  border-bottom: 1px solid var(--hair);
-}
-.m-name {
-  font-variation-settings: 'wdth' 112, 'wght' 500;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 0.92rem;
-  color: var(--bone);
-}
-.m-track { height: 1px; background: var(--hair-2); position: relative; }
-.m-track i {
-  position: absolute;
-  left: 0; top: -1px;
-  height: 3px;
-  width: 0;
-  background: var(--signal);
-  transition: width 1.4s var(--ease);
-}
-.measure.in .m-track i { width: var(--w); }
-.m-val {
-  text-align: right;
-  font-variation-settings: 'wdth' 118, 'wght' 600;
-  font-size: clamp(1.3rem, 2vw, 1.9rem);
-  color: var(--bone);
-  line-height: 1;
-}
-.m-val em { font-family: var(--mono); font-style: normal; font-size: 0.5em; color: var(--signal); margin-left: 3px; }
-
-.disclaimer {
-  margin-top: 28px;
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  font-family: var(--mono);
-  font-size: 11.5px;
-  line-height: 1.7;
-  color: var(--bone-3);
-  max-width: 62ch;
-}
-.disclaimer b { color: var(--signal); font-weight: 400; }
 
 /* ---------- índice editorial (blog) ---------- */
 
@@ -676,7 +632,6 @@ ul { margin: 0; padding: 0; list-style: none; }
   .tenet p { grid-column: 2; }
   .entry { grid-template-columns: 130px minmax(0, 1fr) 44px; }
   .entry-desc { display: none; }
-  .measure { grid-template-columns: 130px minmax(0, 1fr) 96px; gap: 20px; }
   .toc { position: static; }
   .toc ul { display: flex; flex-wrap: wrap; gap: 18px; }
   .toc li + li { margin-top: 0; }
@@ -697,8 +652,6 @@ ul { margin: 0; padding: 0; list-style: none; }
   .foot-cols { grid-template-columns: 1fr; }
   .entry { grid-template-columns: minmax(0, 1fr) 40px; row-gap: 10px; }
   .entry-date { grid-column: 1 / -1; }
-  .measure { grid-template-columns: minmax(0, 1fr) 80px; row-gap: 8px; }
-  .m-track { grid-column: 1 / -1; }
   .tenet { grid-template-columns: 1fr; }
   .tenet p { grid-column: 1; }
 }
