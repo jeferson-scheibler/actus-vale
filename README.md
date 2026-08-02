@@ -1,6 +1,6 @@
 # Actus Vale
 
-Site do movimento Actus Vale — Vale do Taquari, RS.
+Site do movimento Actus Vale. Vale do Taquari, RS.
 
 Site estático, sem build. HTML, CSS e um arquivo de JS.
 
@@ -9,9 +9,9 @@ Site estático, sem build. HTML, CSS e um arquivo de JS.
 ```
 index.html            página inicial (manifesto, princípios, atuação, observatório)
 blog/index.html       índice de publicações, com filtro por categoria
-blog/post.html        modelo de artigo — duplicar para cada publicação nova
+blog/post.html        modelo de artigo, duplicar para cada publicação nova
 assets/css/style.css  sistema visual completo
-assets/js/main.js     progresso de rolagem, revelações, filtros, menu
+assets/js/main.js     progresso de rolagem, revelações, filtros
 assets/img/mark.svg   símbolo do pico (usado como favicon e na rail)
 ```
 

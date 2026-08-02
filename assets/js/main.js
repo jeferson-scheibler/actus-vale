@@ -13,22 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* menu mobile */
-  const burger = document.querySelector('.burger');
-  const sheet = document.querySelector('.sheet');
-  if (burger && sheet) {
-    burger.addEventListener('click', () => {
-      const open = sheet.classList.toggle('open');
-      burger.classList.toggle('on', open);
-      document.body.style.overflow = open ? 'hidden' : '';
-    });
-    sheet.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      sheet.classList.remove('open');
-      burger.classList.remove('on');
-      document.body.style.overflow = '';
-    }));
-  }
-
   /* revelação em scroll (elementos .rv e barras .measure) */
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -60,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* captura de e-mail — ainda sem backend */
+  /* captura de e-mail, ainda sem backend */
   const field = document.querySelector('.field');
   if (field) {
     field.closest('form')?.addEventListener('submit', (e) => {
