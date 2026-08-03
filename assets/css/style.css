@@ -179,6 +179,10 @@ ul { margin: 0; padding: 0; list-style: none; }
 /* logotipo horizontal da navbar */
 .brand img { height: clamp(15px, 1.9vw, 23px); width: auto; }
 
+.brand-footer { display: flex; align-items: center; gap: 11px; }
+
+.brand-footer img { height: clamp(10px, 1.5vw, 15px); width: auto; }
+
 /* lockup em texto, usado só no rodapé */
 .brand-a {
   font-variation-settings: 'wdth' 118, 'wght' 700;
