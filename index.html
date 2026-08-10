@@ -89,11 +89,13 @@
         <p class="stmt rv" style="max-width:32ch">Ou aquele que travou no meio do caminho. Conte em poucas linhas — a gente lê tudo e responde por e-mail.</p>
         <div class="rv" style="--d:.1s">
           <form class="proj-form" id="proj-form" data-worker-url="https://actus-vale-contato.jeferson-scheibler.workers.dev">
-            <!-- campo-armadilha contra robôs: fica vazio para gente, é a
-                 primeira coisa que um preenchimento automático marca -->
+            <!-- campo-armadilha contra robôs: fica vazio para gente. Nome
+                 propositalmente sem sentido — "empresa"/"company" são alvo
+                 comum de autofill e gerenciador de senha, mesmo escondidos,
+                 e isso já gerou falso positivo real (perdeu um envio). -->
             <div class="proj-hp" aria-hidden="true">
-              <label for="proj-empresa">Não preencha este campo</label>
-              <input type="text" id="proj-empresa" name="empresa" tabindex="-1" autocomplete="off">
+              <label for="proj-hp-3x9">Não preencha este campo</label>
+              <input type="text" id="proj-hp-3x9" name="verificacao_3x9" tabindex="-1" autocomplete="off">
             </div>
 
             <div class="proj-field">

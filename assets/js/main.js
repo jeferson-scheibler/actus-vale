@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (projForm) {
     const status = projForm.querySelector('[data-role="status"]');
     const submitBtn = projForm.querySelector('.proj-submit');
-    const textoOriginal = status ? status.textContent : '';
 
     const setStatus = (texto, estado) => {
       if (!status) return;
@@ -49,13 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
     projForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // campo-armadilha preenchido = robô. Finge sucesso e não envia nada.
-      const honeypot = projForm.querySelector('#proj-empresa');
-      if (honeypot && honeypot.value) {
-        projForm.reset();
-        setStatus('Recebido. A gente lê tudo e responde por e-mail.', 'ok');
-        return;
-      }
+      // O campo-armadilha vai junto no envio e quem decide o que fazer
+      // com ele é o Worker. Não descarta aqui no cliente: autofill de
+      // navegador/gerenciador de senha já preencheu esse campo por engano
+      // uma vez, e descartar cedo demais faz perder contato de verdade.
 
       const workerUrl = projForm.dataset.workerUrl;
       if (!workerUrl) {
@@ -63,8 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      // o campo-armadilha vai junto de propósito — é o Worker que decide
+      // o que fazer com ele, ver comentário acima
       const dados = Object.fromEntries(new FormData(projForm).entries());
-      delete dados.empresa;
 
       submitBtn.disabled = true;
       setStatus('Enviando…');

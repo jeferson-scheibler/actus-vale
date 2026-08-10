@@ -60,11 +60,11 @@ export default {
       return json({ ok: false, error: 'invalid json' }, 400, headers);
     }
 
-    // campo-armadilha: se veio preenchido, é robô. Responde sucesso
-    // (não dá pista de que foi filtrado) e não cria nada.
-    if (texto(body.empresa)) {
-      return json({ ok: true }, 200, headers);
-    }
+    // campo-armadilha: só sinaliza, nunca descarta sozinho. Autofill de
+    // navegador/gerenciador de senha já preencheu esse campo escondido
+    // por engano numa submissão real — se a gente ignora aqui, perde o
+    // contato de verdade sem o remetente nem saber que falhou.
+    const suspeito = Boolean(texto(body.verificacao_3x9));
 
     const nome = texto(body.nome, 200);
     const email = texto(body.email, 200);
@@ -80,8 +80,15 @@ export default {
     const categoria = texto(body.categoria, 60) || '—';
     const telefone = texto(body.telefone, 40) || '—';
 
-    const title = `[Projeto] ${nome} — ${municipio}`;
+    const title = suspeito
+      ? `[Verificar] ${nome} — ${municipio}`
+      : `[Projeto] ${nome} — ${municipio}`;
     const issueBody = [
+      ...(suspeito
+        ? ['⚠️ **Campo-armadilha veio preenchido.** Pode ser robô, mas',
+           'também pode ser autofill de navegador — confira antes de',
+           'ignorar.', '']
+        : []),
       `**Município:** ${municipio}`,
       `**Categoria:** ${categoria}`,
       `**E-mail:** ${email}`,
@@ -105,7 +112,7 @@ export default {
         body: JSON.stringify({
           title,
           body: issueBody,
-          labels: ['contato'],
+          labels: suspeito ? ['contato', 'suspeito'] : ['contato'],
         }),
       }
     );
