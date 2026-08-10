@@ -262,8 +262,8 @@ ul { margin: 0; padding: 0; list-style: none; }
    traço diagonal irreconhecível da perna direita. */
 .hero-mark {
   position: absolute;
-  right: -11vw; bottom: -14vh;
-  width: 26vw;
+  right: -6vw; bottom: -14vh;
+  width: 46vw;
   opacity: 0.045;
   pointer-events: none;
 }
