@@ -33,33 +33,48 @@ GitHub e à sua conta da Cloudflare.
      access".
 3. Gere o token e **copie agora** — o GitHub só mostra uma vez.
 
-## 2. Criar a conta e o Worker na Cloudflare
+## 2. Conectar o Worker ao repositório na Cloudflare
+
+O jeito mais simples é conectar direto no Git — a Cloudflare builda e
+publica sozinha a cada push, no mesmo espírito do deploy automático que
+o site já tem no GitHub Pages. Não precisa copiar e colar código à mão.
 
 1. Crie uma conta grátis em [dash.cloudflare.com/sign-up](https://dash.cloudflare.com/sign-up)
    (não precisa ter domínio nenhum cadastrado lá, é só para hospedar a
    função).
-2. No painel, vá em **Workers & Pages** → **Create** → **Create
-   Worker**.
-3. Dê um nome (ex.: `actus-vale-contato`) e clique em **Deploy** para
-   criar o worker vazio primeiro.
-4. Clique em **Edit code**. Apague o código de exemplo e cole o
-   conteúdo de [`worker/index.js`](../worker/index.js) deste
-   repositório.
-5. Clique em **Deploy** (ou **Save and deploy**) para publicar.
-
-## 3. Adicionar o token como segredo do Worker
-
-1. Na página do Worker, vá em **Settings** → **Variables and Secrets**.
-2. Clique em **Add** → tipo **Secret** → nome `GITHUB_TOKEN` → cole o
-   token gerado no passo 1 → **Save**.
+2. No painel, **Workers & Pages** → **Create** → procure a opção de
+   **conectar um repositório do GitHub** (import/connect a repository),
+   não "criar do zero".
+3. Autorize a Cloudflare a acessar sua conta do GitHub e selecione
+   `jeferson-scheibler/actus-vale`.
+4. Na tela **"Set up your application"**:
+   - **Project name:** `actus-vale-contato` (pra bater com o nome já
+     definido em `worker/wrangler.toml`)
+   - **Build command:** deixa vazio — não tem build, é JS puro
+   - **Deploy command:** já vem `npx wrangler deploy`, não mexe
+5. Abre **Advanced settings**:
+   - **Path:** troca de `/` para `worker` — **esse é o campo que mais
+     importa**. O código fica na subpasta `worker/` do repositório (o
+     mesmo repo tem o site inteiro junto), e se deixar `/` a Cloudflare
+     procura o `wrangler.toml` na raiz e não acha.
+   - **API token:** deixa em "Create new token" — é um token da própria
+     Cloudflare para ela publicar na sua conta, diferente do token do
+     GitHub do passo 1.
+6. Mais abaixo, em **Variable name / Variable value** (ainda na mesma
+   tela): esse é o segredo que o Worker usa em tempo de execução —
+   **preencha com o token do GitHub aqui**:
+   - **Variable name:** `GITHUB_TOKEN` (exatamente assim — é o nome que
+     o código em `worker/index.js` procura)
+   - **Variable value:** cola o token gerado no passo 1
+   - Clica em **Encrypt** antes de publicar
 
 Segredos da Cloudflare ficam criptografados e nunca aparecem de volta
 na tela nem no código — diferente de colocar o token direto no
 JavaScript do site, que ficaria visível para qualquer visitante.
 
-## 4. Pegar a URL do Worker e conectar no site
+## 3. Pegar a URL do Worker e conectar no site
 
-1. Na página do Worker, a URL fica visível no topo, algo como
+1. Depois do deploy, o log mostra a URL publicada, algo como
    `https://actus-vale-contato.SEU-USUARIO.workers.dev`.
 2. Em [`index.html`](../index.html), procure por `id="proj-form"` e
    preencha o atributo `data-worker-url` com essa URL:
@@ -68,9 +83,10 @@ JavaScript do site, que ficaria visível para qualquer visitante.
    <form class="proj-form" id="proj-form" data-worker-url="https://actus-vale-contato.SEU-USUARIO.workers.dev">
    ```
 
-3. Publique essa alteração (commit + push).
+3. Publique essa alteração (commit + push) — o site é servido pelo
+   GitHub Pages, então esse deploy é separado do deploy do Worker.
 
-## 5. Testar
+## 4. Testar
 
 1. Abra o site publicado e preencha o formulário com um teste.
 2. Confira em `github.com/jeferson-scheibler/actus-vale/issues` se a
