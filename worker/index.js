@@ -13,10 +13,16 @@
 const GITHUB_OWNER = 'jeferson-scheibler';
 const GITHUB_REPO = 'actus-vale';
 
-// origens que podem chamar este Worker — ajuste se o domínio mudar
+// origens que podem chamar este Worker — ajuste se o domínio mudar.
+// As variantes http:// ficam aqui como rede de segurança enquanto o
+// GitHub Pages não força HTTPS no domínio próprio (Settings → Pages →
+// Enforce HTTPS) — sem isso, quem cair no site por http:// manda esse
+// Origin e o CORS barra a chamada mesmo o servidor respondendo certo.
 const ALLOWED_ORIGINS = [
   'https://actusvale.com.br',
   'https://www.actusvale.com.br',
+  'http://actusvale.com.br',
+  'http://www.actusvale.com.br',
   'https://jeferson-scheibler.github.io',
 ];
 
