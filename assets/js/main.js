@@ -66,13 +66,31 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.disabled = true;
       setStatus('Enviando…');
 
+      // erros de validação que a pessoa consegue corrigir sozinha —
+      // mostra o motivo específico em vez da mensagem genérica
+      const ERROS_CORRIGIVEIS = {
+        'campos obrigatórios faltando': 'Preenche nome, e-mail e a mensagem antes de enviar.',
+        'mensagem muito curta': 'Escreve um pouco mais na mensagem — só isso falta.',
+      };
+
       try {
         const resp = await fetch(workerUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(dados),
         });
-        if (!resp.ok) throw new Error('resposta ' + resp.status);
+
+        if (!resp.ok) {
+          let payload = null;
+          try { payload = await resp.json(); } catch { /* corpo não era JSON */ }
+          const amigavel = payload && ERROS_CORRIGIVEIS[payload.error];
+          setStatus(
+            amigavel || 'Não deu para enviar agora. Tenta de novo ou escreve direto pelo e-mail abaixo.',
+            'erro'
+          );
+          return;
+        }
+
         projForm.reset();
         setStatus('Recebido. A gente lê tudo e responde por e-mail.', 'ok');
       } catch (err) {
