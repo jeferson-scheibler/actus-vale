@@ -61,12 +61,22 @@ o site já tem no GitHub Pages. Não precisa copiar e colar código à mão.
      Cloudflare para ela publicar na sua conta, diferente do token do
      GitHub do passo 1.
 6. Mais abaixo, em **Variable name / Variable value** (ainda na mesma
-   tela): esse é o segredo que o Worker usa em tempo de execução —
-   **preencha com o token do GitHub aqui**:
+   tela): preenche com o token do GitHub:
    - **Variable name:** `GITHUB_TOKEN` (exatamente assim — é o nome que
      o código em `worker/index.js` procura)
    - **Variable value:** cola o token gerado no passo 1
    - Clica em **Encrypt** antes de publicar
+
+> **Pegadinha confirmada na prática:** esse campo, dentro do assistente
+> de conexão com o Git, fica guardado na configuração de **Build**
+> (visível depois em Settings → **Build → Variables and secrets**) — e
+> isso *não é* automaticamente o mesmo segredo que o Worker publicado
+> lê em tempo real. Depois de configurar por aqui, confira também em
+> Settings → **Variables and secrets** (a seção principal, fora do
+> bloco "Build") se o `GITHUB_TOKEN` aparece listado ali. Se não
+> aparecer, adiciona de novo **nesse local específico**: **+ Add** →
+> tipo **Secret** → nome `GITHUB_TOKEN` → cola o token → salva. O jeito
+> mais seguro é deixar configurado nos dois lugares.
 
 Segredos da Cloudflare ficam criptografados e nunca aparecem de volta
 na tela nem no código — diferente de colocar o token direto no

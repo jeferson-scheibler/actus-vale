@@ -49,22 +49,6 @@ export default {
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers });
     }
-
-    // DIAGNÓSTICO TEMPORÁRIO — remover depois de confirmar o segredo.
-    // Nunca expõe o token inteiro, só formato/tamanho, pra achar erro de
-    // nome de variável ou de ambiente (Production x Preview) na Cloudflare.
-    if (request.method === 'GET') {
-      const t = env.GITHUB_TOKEN;
-      return json({
-        temToken: typeof t !== 'undefined' && t !== null && t !== '',
-        tipo: typeof t,
-        tamanho: t ? t.length : 0,
-        comeca: t ? t.slice(0, 8) : null,
-        termina: t ? t.slice(-4) : null,
-        temEspacoOuQuebra: t ? /\s/.test(t) : null,
-      }, 200, headers);
-    }
-
     if (request.method !== 'POST') {
       return json({ ok: false, error: 'method not allowed' }, 405, headers);
     }
