@@ -255,11 +255,15 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 /* borda esquerda do mark fica a ~85vw — o texto mais largo do título
    ("potencial") chega no máximo a ~78.4vw (medido em 821px, a largura
-   de desktop mais estreita); a folga evita que o símbolo cruze o texto */
+   de desktop mais estreita); a folga evita que o símbolo cruze o texto.
+   O ápice do mark.svg fica no centro horizontal da própria arte: com
+   width menor (26vw em vez dos 34vw testados antes), o ápice cai a
+   ~85+13=98vw, ainda dentro da tela — em vez de sumir e sobrar só um
+   traço diagonal irreconhecível da perna direita. */
 .hero-mark {
   position: absolute;
-  right: -19vw; bottom: -14vh;
-  width: 34vw;
+  right: -11vw; bottom: -14vh;
+  width: 26vw;
   opacity: 0.045;
   pointer-events: none;
 }
