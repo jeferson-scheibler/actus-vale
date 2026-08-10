@@ -30,15 +30,58 @@ document.addEventListener('DOMContentLoaded', () => {
     io.observe(el);
   });
 
-  /* captura de e-mail, ainda sem backend */
-  const field = document.querySelector('.field');
-  if (field) {
-    field.closest('form')?.addEventListener('submit', (e) => {
+  /* formulário "Traga o projeto": envia para o Worker, que cria uma
+     issue no GitHub e — como efeito colateral automático do próprio
+     GitHub — dispara e-mail de notificação para o dono do repositório. */
+  const projForm = document.querySelector('#proj-form');
+  if (projForm) {
+    const status = projForm.querySelector('[data-role="status"]');
+    const submitBtn = projForm.querySelector('.proj-submit');
+    const textoOriginal = status ? status.textContent : '';
+
+    const setStatus = (texto, estado) => {
+      if (!status) return;
+      status.textContent = texto;
+      if (estado) status.setAttribute('data-state', estado);
+      else status.removeAttribute('data-state');
+    };
+
+    projForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const input = field.querySelector('input');
-      if (input && input.value) {
-        input.value = '';
-        input.placeholder = 'Recebido. Falamos em breve.';
+
+      // campo-armadilha preenchido = robô. Finge sucesso e não envia nada.
+      const honeypot = projForm.querySelector('#proj-empresa');
+      if (honeypot && honeypot.value) {
+        projForm.reset();
+        setStatus('Recebido. A gente lê tudo e responde por e-mail.', 'ok');
+        return;
+      }
+
+      const workerUrl = projForm.dataset.workerUrl;
+      if (!workerUrl) {
+        setStatus('Formulário ainda não está conectado. Escreva direto pelo e-mail abaixo.', 'erro');
+        return;
+      }
+
+      const dados = Object.fromEntries(new FormData(projForm).entries());
+      delete dados.empresa;
+
+      submitBtn.disabled = true;
+      setStatus('Enviando…');
+
+      try {
+        const resp = await fetch(workerUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dados),
+        });
+        if (!resp.ok) throw new Error('resposta ' + resp.status);
+        projForm.reset();
+        setStatus('Recebido. A gente lê tudo e responde por e-mail.', 'ok');
+      } catch (err) {
+        setStatus('Não deu para enviar agora. Tenta de novo ou escreve direto pelo e-mail abaixo.', 'erro');
+      } finally {
+        submitBtn.disabled = false;
       }
     });
   }

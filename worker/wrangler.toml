@@ -1,0 +1,12 @@
+# Config para deploy via CLI (opcional — o painel web da Cloudflare
+# também funciona sem isso, veja docs/formulario-contato.md).
+#
+# Uso:
+#   npm install -g wrangler
+#   wrangler login
+#   wrangler secret put GITHUB_TOKEN   # cola o token quando pedir
+#   wrangler deploy
+
+name = "actus-vale-contato"
+main = "index.js"
+compatibility_date = "2025-01-01"

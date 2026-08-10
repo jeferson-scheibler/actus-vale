@@ -85,20 +85,62 @@
         </div>
       </div>
 
-      <div class="invite-grid">
-        <p class="stmt rv" style="max-width:32ch">Ou aquele que travou no meio do caminho. Uma página de proposta já basta para a conversa <em>começar</em>.</p>
+      <div class="invite-grid" style="align-items:start">
+        <p class="stmt rv" style="max-width:32ch">Ou aquele que travou no meio do caminho. Conte em poucas linhas — a gente lê tudo e responde por e-mail.</p>
         <div class="rv" style="--d:.1s">
-          <form>
-            <span class="tag" style="display:block;margin-bottom:20px">Entrar na lista</span>
-            <div class="field">
-              <input type="email" placeholder="seu@email.com" required aria-label="Seu e-mail">
-              <button type="submit">Enviar
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </button>
+          <form class="proj-form" id="proj-form" data-worker-url="">
+            <!-- campo-armadilha contra robôs: fica vazio para gente, é a
+                 primeira coisa que um preenchimento automático marca -->
+            <div class="proj-hp" aria-hidden="true">
+              <label for="proj-empresa">Não preencha este campo</label>
+              <input type="text" id="proj-empresa" name="empresa" tabindex="-1" autocomplete="off">
             </div>
-            <p class="field-note">Sem spam. Um aviso quando abrir inscrição de grupo ou sair projeto novo.</p>
+
+            <div class="proj-field">
+              <label class="proj-label" for="proj-nome">Nome do projeto</label>
+              <input type="text" id="proj-nome" name="nome" placeholder="Como o projeto se chama" required>
+            </div>
+
+            <div class="proj-row proj-row--split">
+              <div class="proj-field">
+                <label class="proj-label" for="proj-municipio">Município</label>
+                <input type="text" id="proj-municipio" name="municipio" placeholder="Onde acontece" required>
+              </div>
+              <div class="proj-field">
+                <label class="proj-label" for="proj-categoria">Categoria</label>
+                <select id="proj-categoria" name="categoria" required>
+                  <option value="" disabled selected>Escolha</option>
+                  <option>Formação</option>
+                  <option>Observatório</option>
+                  <option>Mentoria e recurso</option>
+                  <option>Rede Actus</option>
+                  <option>Outra</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="proj-row proj-row--split">
+              <div class="proj-field">
+                <label class="proj-label" for="proj-email">E-mail</label>
+                <input type="email" id="proj-email" name="email" placeholder="seu@email.com" required>
+              </div>
+              <div class="proj-field">
+                <label class="proj-label" for="proj-telefone">WhatsApp <span style="text-transform:none">(opcional)</span></label>
+                <input type="tel" id="proj-telefone" name="telefone" placeholder="(51) 9....">
+              </div>
+            </div>
+
+            <div class="proj-field">
+              <label class="proj-label" for="proj-mensagem">Conte em poucas linhas</label>
+              <textarea id="proj-mensagem" name="mensagem" rows="4" placeholder="O que é, em que fase está, o que você está buscando" required></textarea>
+            </div>
+
+            <button type="submit" class="proj-submit">Enviar
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <p class="proj-status" data-role="status">Sem spam. A gente lê tudo e responde por e-mail.</p>
           </form>
-          <a href="mailto:contato@nextgenassessoria.com.br" class="empty-cta" style="margin-top:36px">Já tem projeto? Escreva direto
+          <a href="mailto:contato@nextgenassessoria.com.br" class="empty-cta" style="margin-top:28px">Prefere e-mail direto?
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
         </div>

@@ -497,44 +497,105 @@ ul { margin: 0; padding: 0; list-style: none; }
 .invite { position: relative; overflow: hidden; }
 .invite-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(40px, 6vw, 100px); align-items: end; }
 
-.field {
+
+/* ---------- formulário de projeto (Traga o projeto) ---------- */
+
+.proj-form { display: grid; gap: 22px; }
+.proj-row { display: grid; gap: 22px; }
+.proj-row--split { grid-template-columns: 1fr 1fr; }
+
+.proj-field {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  flex-direction: column;
+  gap: 8px;
   border-bottom: 1px solid var(--hair-2);
-  padding-bottom: 12px;
+  padding-bottom: 10px;
   transition: border-color 0.4s var(--ease);
 }
-.field:focus-within { border-color: var(--signal); }
-.field input {
-  flex: 1;
+.proj-field:focus-within { border-color: var(--signal); }
+
+.proj-label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--bone-3);
+}
+
+.proj-field input,
+.proj-field select,
+.proj-field textarea {
   background: none;
   border: 0;
   outline: 0;
   color: var(--bone);
   font-family: var(--sans);
-  font-size: 1.05rem;
-  padding: 10px 0;
+  font-size: 0.98rem;
+  padding: 2px 0 4px;
+  resize: none;
 }
-.field input::placeholder { color: var(--bone-3); }
-.field button {
-  background: none;
-  border: 0;
+.proj-field textarea { line-height: 1.5; }
+.proj-field input::placeholder,
+.proj-field textarea::placeholder { color: var(--bone-3); }
+
+/* select customizado: mantém o traço técnico do resto do site */
+.proj-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ea592d' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 14px;
   cursor: pointer;
+}
+.proj-field select:invalid { color: var(--bone-3); }
+.proj-field select option { background: var(--panel); color: var(--bone); }
+
+/* campo-armadilha: invisível para gente, visível para robôs de formulário */
+.proj-hp {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.proj-submit {
+  justify-self: start;
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 1px solid var(--hair-2);
+  padding: 14px 24px;
   color: var(--bone);
   font-family: var(--mono);
   font-size: 11.5px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: color 0.3s var(--ease);
+  cursor: pointer;
+  transition: all 0.35s var(--ease);
 }
-.field button:hover { color: var(--signal); }
-.field svg { width: 14px; transition: transform 0.4s var(--ease); }
-.field button:hover svg { transform: translateX(4px); }
-.field-note { margin-top: 16px; font-family: var(--mono); font-size: 11px; line-height: 1.7; color: var(--bone-3); }
+.proj-submit:hover { background: var(--signal); border-color: var(--signal); color: var(--void); }
+.proj-submit:disabled { opacity: 0.5; cursor: wait; }
+.proj-submit svg { width: 14px; transition: transform 0.4s var(--ease); }
+.proj-submit:hover svg { transform: translateX(4px); }
+
+.proj-status {
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--bone-3);
+  min-height: 1.7em;
+}
+.proj-status[data-state="ok"] { color: var(--signal); }
+.proj-status[data-state="erro"] { color: #e08383; }
+
+@media (max-width: 560px) {
+  .proj-row--split { grid-template-columns: 1fr; }
+}
 
 /* ---------- rodapé ---------- */
 
