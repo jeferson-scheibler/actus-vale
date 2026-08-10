@@ -84,7 +84,8 @@ ul { margin: 0; padding: 0; list-style: none; }
 .dsp-xl  { font-size: clamp(2rem, 9vw, 9.4rem); }
 /* linha mais longa do título ("com quem fica.") não cabe em 9vw */
 .hero-title { font-size: clamp(1.9rem, 7.2vw, 7.4rem); }
-.dsp-lg  { font-size: clamp(1.9rem, 5.4vw, 4.6rem); }
+/* mínimo em 1.7rem: em 360px a linha "Traga o projeto" não cabe em 1.9rem */
+.dsp-lg  { font-size: clamp(1.7rem, 5.4vw, 4.6rem); }
 .dsp-md  { font-size: clamp(1.5rem, 2.6vw, 2.3rem); line-height: 0.95; }
 .dsp-sm  { font-size: clamp(1.1rem, 1.5vw, 1.35rem); line-height: 1.05; letter-spacing: 0; }
 
@@ -201,6 +202,21 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 /* único item da navbar: sem sublinhado, o quadrado laranja
    é a única resposta ao hover */
+.head-right { display: flex; align-items: center; gap: clamp(20px, 3vw, 40px); }
+
+/* navbar sem sublinhado: hover só muda a cor */
+.nav-link {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--bone-2);
+  padding: 6px 0;
+  white-space: nowrap;
+  transition: color 0.3s var(--ease);
+}
+.nav-link:hover, .nav-link[aria-current] { color: var(--bone); }
+
 .nav-cta {
   display: inline-flex;
   align-items: center;
@@ -237,16 +253,6 @@ ul { margin: 0; padding: 0; list-style: none; }
   border-bottom: 1px solid var(--hair);
 }
 
-.hero-glow {
-  position: absolute;
-  top: -18%; left: 42%;
-  width: 62vw; height: 62vw;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(234, 89, 45, 0.16), transparent 62%);
-  filter: blur(28px);
-  pointer-events: none;
-}
-
 .hero-mark {
   position: absolute;
   right: -6vw; bottom: -14vh;
@@ -281,6 +287,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .hl:nth-of-type(1) > span { animation-delay: 0.15s; }
 .hl:nth-of-type(2) > span { animation-delay: 0.27s; }
 .hl:nth-of-type(3) > span { animation-delay: 0.39s; }
+.hl:nth-of-type(4) > span { animation-delay: 0.51s; }
 @keyframes rise { to { transform: translateY(0); } }
 
 /* ---------- estrutura de seção ---------- */
@@ -392,7 +399,46 @@ ul { margin: 0; padding: 0; list-style: none; }
 .front h3 { margin-bottom: 16px; }
 .front p { color: var(--bone-2); max-width: 44ch; }
 
-/* ---------- índice editorial (blog) ---------- */
+/* ---------- estado vazio: ainda não há projetos ---------- */
+
+.empty {
+  border: 1px solid var(--hair-2);
+  padding: clamp(30px, 4.6vw, 60px);
+  display: grid;
+  gap: 20px;
+  justify-items: start;
+  background: rgba(11, 11, 10, 0.55);
+}
+.empty-stmt {
+  font-variation-settings: 'wdth' 118, 'wght' 700;
+  text-transform: uppercase;
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
+  line-height: 1.02;
+  letter-spacing: -0.012em;
+  color: var(--bone);
+  max-width: 22ch;
+}
+.empty-desc { color: var(--bone-2); max-width: 58ch; }
+
+.empty-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--bone);
+  border-bottom: 1px solid var(--signal);
+  padding-bottom: 7px;
+  transition: color 0.3s var(--ease);
+}
+.empty-cta:hover { color: var(--signal); }
+.empty-cta svg { width: 14px; transition: transform 0.35s var(--ease); }
+.empty-cta:hover svg { transform: translateX(4px); }
+
+/* ---------- índice editorial ---------- */
 
 .entries { border-top: 1px solid var(--hair); }
 .entry {
@@ -516,22 +562,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 .phead .lede { margin-top: 26px; }
 
-.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 44px; }
-.filters button {
-  font-family: var(--mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  padding: 10px 18px;
-  background: none;
-  border: 1px solid var(--hair-2);
-  color: var(--bone-3);
-  cursor: pointer;
-  transition: all 0.35s var(--ease);
-}
-.filters button:hover { color: var(--bone); border-color: var(--bone-3); }
-.filters button[aria-pressed="true"] { background: var(--bone); border-color: var(--bone); color: var(--void); }
-
 /* ---------- artigo ---------- */
 
 .art-head { padding: calc(var(--head) + clamp(60px, 9vw, 120px)) 0 clamp(40px, 4vw, 60px); border-bottom: 1px solid var(--hair); }
@@ -646,6 +676,13 @@ ul { margin: 0; padding: 0; list-style: none; }
   body { padding-left: 0; }
   .rail { display: none; }
   .head { left: 0; }
+  /* em vw, 46% de uma tela estreita é quase invisível — no
+     mobile o símbolo escala a partir da altura, não da largura,
+     para continuar lendo como marca d'água, não como ruído.
+     max-width:none anula o limite global de img (senão a altura
+     forçaria uma largura maior que o container e distorceria o
+     svg); .hero tem overflow:hidden, então o excesso é recortado. */
+  .hero-mark { width: auto; max-width: none; height: 62vh; right: -12vw; bottom: -9vh; }
   .fronts { grid-template-columns: 1fr; }
   .fronts .front:nth-child(even) { padding-left: 0; border-left: 0; }
   .fronts .front:nth-child(odd) { padding-right: 0; }
@@ -658,4 +695,13 @@ ul { margin: 0; padding: 0; list-style: none; }
   .entry-date { grid-column: 1 / -1; }
   .tenet { grid-template-columns: 1fr; }
   .tenet p { grid-column: 1; }
+
+  /* navbar: logo + "Sobre" + CTA disputam a mesma linha estreita.
+     Reduz padding, logo, espaçamento e tipografia até tudo caber
+     sem sobrepor — medido em telas de 320 a 480px. */
+  .head .wrap { padding-left: 16px; padding-right: 16px; }
+  .brand img { height: 12px; }
+  .head-right { gap: 12px; }
+  .nav-link, .nav-cta { font-size: 9.5px; letter-spacing: 0.09em; }
+  .nav-cta .dot { width: 6px; height: 6px; }
 }

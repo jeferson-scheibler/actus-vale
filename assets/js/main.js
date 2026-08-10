@@ -30,20 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
     io.observe(el);
   });
 
-  /* filtros do blog */
-  const filters = document.querySelectorAll('.filters button');
-  const entries = document.querySelectorAll('.entries .entry');
-  filters.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const cat = btn.dataset.cat;
-      filters.forEach(b => b.setAttribute('aria-pressed', b === btn));
-      entries.forEach(en => {
-        const show = cat === 'all' || en.dataset.cat === cat;
-        en.style.display = show ? '' : 'none';
-      });
-    });
-  });
-
   /* captura de e-mail, ainda sem backend */
   const field = document.querySelector('.field');
   if (field) {
